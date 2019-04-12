@@ -38,7 +38,6 @@ public class AJAXManagerNotPendingRequestServlet extends HttpServlet {
 		
 		List<Object> list1 = rd.listReimbursementsNotPendingStatus(queryPendingRequests);
 		String data = om.writeValueAsString(list1);
-		data = "{\"pending\": " + data + "}";
 		pw.print(data);
 	}
 }

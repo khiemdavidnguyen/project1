@@ -38,7 +38,6 @@ public class AJAXManagerViewPending extends HttpServlet{
 		
 		List<Object> list = rd.listReimbursementsPendingStatus(queryPendingRequests);
 		String data = om.writeValueAsString(list);
-		data = "{\"pending\": " + data + "}";
 		pw.print(data);
 
 	}

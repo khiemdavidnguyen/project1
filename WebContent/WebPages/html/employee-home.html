@@ -51,7 +51,7 @@ function loadPending( myFunction) {
 	
 
 	function displayPending(xhr){
-		requests = JSON.parse(xhr.responseText).pending;
+		requests = JSON.parse(xhr.responseText);
 		title = document.getElementById("titleToChange")
 		title.innerHTML = "All Open Requests"
 		table = document.getElementById("tableToView");
@@ -89,7 +89,7 @@ function loadPending( myFunction) {
 
 
 		function displayNotPending(xhr){
-			requests = JSON.parse(xhr.responseText).pending;
+			requests = JSON.parse(xhr.responseText);
 			title = document.getElementById("titleToChange")
 			title.innerHTML = "All Closed Requests"
 			table = document.getElementById("tableToView");

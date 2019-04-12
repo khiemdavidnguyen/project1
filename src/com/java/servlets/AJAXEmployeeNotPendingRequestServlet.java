@@ -42,7 +42,6 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 			"a.REIMB_TYPE_ID = c.REIMB_TYPE_ID and REIMB_AUTHOR =" + staff_Id + "order by a.REIMB_ID";
 	List<Object> list = rd.listReimbursementsNotPendingStatus(queryPendingRequests);
 	String data = om.writeValueAsString(list);
-	data = "{\"pending\": " + data + "}";
 	pw.print(data);
 
 }

@@ -42,7 +42,6 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	
 	List<Object> list = rd.listReimbursements(queryPendingRequests);
 	String data = om.writeValueAsString(list);
-	data = "{\"pending\": " + data + "}";
 	pw.print(data);
 
 }

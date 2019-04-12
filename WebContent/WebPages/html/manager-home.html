@@ -25,9 +25,9 @@
 	</table>
 <a class="btn btn-primary offset-md-1" style="color:white" onclick="loadPending(displayPending);">View All Employees Open Request</a>
 <a class="btn btn-primary" style="color:white"  onclick="loadNotPending(displayNotPending);">View All Employees Closed Request</a>
-<a class="btn btn-primary offset-md-2" style="color:white"  onclick="loadPendingPersonal(displayPendingPersonal);">View All Personal Open Request</a>
-<a class="btn btn-primary" style="color:white"  onclick="loadNotPendingPersonal(displayNotPendingPersonal);">View All Personal Closed Request</a>
-<a class="btn btn-primary" href="newRequestManager">Request New Reimbursement</a><br><br>
+<a class="btn btn-primary " style="color:white"  onclick="loadPendingPersonal(displayPendingPersonal);">View All Personal Open Request</a>
+<a class="btn btn-primary" style="color:white"  onclick="loadNotPendingPersonal(displayNotPendingPersonal);">View All Personal Closed Request</a><br><br>
+<a class="btn btn-primary offset-md-1" href="newRequestManager">Request New Reimbursement</a><br><br>
 <form action="employee-home" method="POST">
 <input class="btn btn-danger offset-md-1" type="submit" value="Logout" name="logout">
 </form>
@@ -51,7 +51,7 @@
 	}
 
 	function displayPending(xhr){
-		requests = JSON.parse(xhr.responseText).pending;
+		requests = JSON.parse(xhr.responseText);
 		title = document.getElementById("titleToChange")
 		title.innerHTML = "All Open Requests"
 		table = document.getElementById("tableToView");
@@ -87,7 +87,7 @@
 	}
 
 	function displayNotPending(xhr){
-		requests = JSON.parse(xhr.responseText).pending;
+		requests = JSON.parse(xhr.responseText);
 		title = document.getElementById("titleToChange")
 		title.innerHTML = "All Closed Requests"
 		table = document.getElementById("tableToView");
@@ -114,7 +114,7 @@
 	} 
 
 	function loadPendingPersonal( myFunction) {
-		  var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.HTTPRequest");
+		  var xhttp = new XMLHttpRequest();
 		  xhttp.onreadystatechange = function() {
 		    if (this.readyState == 4 && this.status == 200) {
 		      myFunction(this);
@@ -128,7 +128,7 @@
 		
 
 		function displayPendingPersonal(xhr){
-			requests = JSON.parse(xhr.responseText).pending;
+			requests = JSON.parse(xhr.responseText);
 			title = document.getElementById("titleToChange")
 			title.innerHTML = "All Open Requests"
 			table = document.getElementById("tableToView");
@@ -152,7 +152,7 @@
 		
 
 		function loadNotPendingPersonal(  myFunction) {
-			  var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.HTTPRequest");
+			  var xhttp = new XMLHttpRequest();
 			  xhttp.onreadystatechange = function() {
 			    if (this.readyState == 4 && this.status == 200) {
 			      myFunction(this);
@@ -166,7 +166,7 @@
 
 
 			function displayNotPendingPersonal(xhr){
-				requests = JSON.parse(xhr.responseText).pending;
+				requests = JSON.parse(xhr.responseText);
 				title = document.getElementById("titleToChange")
 				title.innerHTML = "All Closed Requests"
 				table = document.getElementById("tableToView");
