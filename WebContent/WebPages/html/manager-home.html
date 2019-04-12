@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Manager Home Page</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+<h1 id="welcomeHeader"class="text-center"> Welcome to Manager Page! </h1><br>
+
+<h3 id="titleToChange" class="text-center">Please Make a Request to View</h3>
+
+
+	<table id="tableToView" class="table">
+		<tr>
+			<th class="text-center">Reimbursement ID</th>
+			<th class="text-center">Amount</th>
+			<th class="text-center">Date Submitted</th>
+			<th class="text-center">Description</th>
+			<th class="text-center">Status</th>
+			<th class="text-center">Options</th>
+			<th class="text-center"></th>
+		</tr>
+	</table>
+<a class="btn btn-primary offset-md-1" style="color:white" onclick="loadPending(displayPending);">View All Employees Open Request</a>
+<a class="btn btn-primary" style="color:white"  onclick="loadNotPending(displayNotPending);">View All Employees Closed Request</a>
+<a class="btn btn-primary offset-md-2" style="color:white"  onclick="loadPendingPersonal(displayPendingPersonal);">View All Personal Open Request</a>
+<a class="btn btn-primary" style="color:white"  onclick="loadNotPendingPersonal(displayNotPendingPersonal);">View All Personal Closed Request</a>
+<a class="btn btn-primary" href="newRequestManager">Request New Reimbursement</a><br><br>
+<form action="employee-home" method="POST">
+<input class="btn btn-danger offset-md-1" type="submit" value="Logout" name="logout">
+</form>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+	
+	loadPending(displayPending);
+	
+	function loadPending(myFunction) {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			 myFunction(this);
+			}
+		};
+		xhttp.open("GET", "http://localhost:8080/Project1Final/AJAXmanager-view-pending");
+		xhttp.send();
+	}
+
+	function displayPending(xhr){
+		requests = JSON.parse(xhr.responseText).pending;
+		title = document.getElementById("titleToChange")
+		title.innerHTML = "All Open Requests"
+		table = document.getElementById("tableToView");
+		for (var i =table.rows.length-1; i>0; i--){
+			table.deleteRow(i)
+		}
+		for (let i in requests){
+			newRow = document.createElement("tr");
+			console.log("this is running the displayNotPending Data");
+			newRow.innerHTML = 
+				`<td class="text-center">${requests[i].reimbId}</td>
+				<td class="text-center">${requests[i].reimbAmount}</td>
+				<td class="text-center">${requests[i].submitDate}</td>
+				<td class="text-center">${requests[i].description}</td>
+				<td class="text-center">${requests[i].type}</td>
+				<td class="text-center">${requests[i].status}</td>
+				<td class="text-center">
+				<a class="btn btn-success" href='approveRequest?id=${requests[i].reimbId}'>Approve</a>
+				<a class="btn btn-danger" href='denyRequest?id=${requests[i].reimbId}'>Deny</a>
+				</td>`;	
+				table.appendChild(newRow);
+		}
+	} 
+	function loadNotPending(myFunction) {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			 myFunction(this);
+			}
+		};
+		xhttp.open("GET", "http://localhost:8080/Project1Final/AJAXmanager-view-not-pending");
+		xhttp.send();
+	}
+
+	function displayNotPending(xhr){
+		requests = JSON.parse(xhr.responseText).pending;
+		title = document.getElementById("titleToChange")
+		title.innerHTML = "All Closed Requests"
+		table = document.getElementById("tableToView");
+		for (var i =table.rows.length-1; i>0; i--){
+			table.deleteRow(i)
+		}
+		for (let i in requests){
+			newRow = document.createElement("tr");
+			console.log("this is running the displayNotPending Data");
+			newRow.innerHTML = 
+				`<td class="text-center">${requests[i].reimbId}</td>
+				<td class="text-center">${requests[i].reimbAmount}</td>
+				<td class="text-center">${requests[i].submitDate}</td>
+				<td class="text-center">${requests[i].description}</td>
+				<td class="text-center">${requests[i].type}</td>
+				<td class="text-center">${requests[i].status}</td>
+				<td class="text-center">
+				<a class="btn btn-primary" href='openRequest?id=${requests[i].reimbId}'>Open</a>
+				<a class="btn btn-success" href='approveRequest?id=${requests[i].reimbId}'>Approve</a>
+				<a class="btn btn-danger" href='denyRequest?id=${requests[i].reimbId}'>Deny</a>
+				</td>`;	
+				table.appendChild(newRow);
+		}
+	} 
+
+	function loadPendingPersonal( myFunction) {
+		  var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.HTTPRequest");
+		  xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		      myFunction(this);
+		    }
+		  };
+		  xhttp.open("GET", "http://localhost:8080/Project1Final/AJAXemployee_view_pending");
+		  xhttp.send();
+		  console.log("This is running loadPending");
+		}
+
+		
+
+		function displayPendingPersonal(xhr){
+			requests = JSON.parse(xhr.responseText).pending;
+			title = document.getElementById("titleToChange")
+			title.innerHTML = "All Open Requests"
+			table = document.getElementById("tableToView");
+			for (var i =table.rows.length-1; i>0; i--){
+				table.deleteRow(i)
+			}
+			for (let i in requests){
+				newRow = document.createElement("tr");
+				
+				newRow.innerHTML = 
+					`<td class="text-center">${requests[i].reimbId}</td>
+					<td class="text-center">${requests[i].reimbAmount}</td>
+					<td class="text-center">${requests[i].submitDate}</td>
+					<td class="text-center">${requests[i].description}</td>
+					<td class="text-center">${requests[i].type}</td>
+					<td class="text-center">${requests[i].status}</td>`;
+				table.appendChild(newRow);
+				console.log("This is running display");
+			}
+		}
+		
+
+		function loadNotPendingPersonal(  myFunction) {
+			  var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.HTTPRequest");
+			  xhttp.onreadystatechange = function() {
+			    if (this.readyState == 4 && this.status == 200) {
+			      myFunction(this);
+			    }
+			  };
+			  xhttp.open("GET", "http://localhost:8080/Project1Final/AJAXemployee_view_NOTpending");
+			  xhttp.send();
+			  console.log("This is running loadPending");
+			}
+
+
+
+			function displayNotPendingPersonal(xhr){
+				requests = JSON.parse(xhr.responseText).pending;
+				title = document.getElementById("titleToChange")
+				title.innerHTML = "All Closed Requests"
+				table = document.getElementById("tableToView");
+				for (var i =table.rows.length-1; i>0; i--){
+					table.deleteRow(i)
+				}
+				for (let i in requests){
+					newRow = document.createElement("tr");
+					
+					newRow.innerHTML = 
+						`<td class="text-center">${requests[i].reimbId}</td>
+						<td class="text-center">${requests[i].reimbAmount}</td>
+						<td class="text-center">${requests[i].submitDate}</td>
+						<td class="text-center">${requests[i].description}</td>
+						<td class="text-center">${requests[i].type}</td>
+						<td class="text-center">${requests[i].status}</td>`;
+		
+					table.appendChild(newRow);
+					console.log("This is running display");
+				}
+			}
+			
+	
+	
+</script>
+
+</body>
+</html>
